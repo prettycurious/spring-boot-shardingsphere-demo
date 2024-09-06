@@ -1,0 +1,56 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#    open-in-view: true
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    dynamic:
+      enabled: true #启用动态数据源，默认true
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      grace-destroy: false #是否优雅关闭数据源，默认为false，设置为true时，关闭数据源时如果数据源中还存在活跃连接，至多等待10s后强制关闭
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/shardingsphere
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: admin2018
+#        sharding:
+#          url: jdbc:shardingsphere:classpath:shardingsphere.yml
+#          driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+#  shardingsphere:
+#    datasource:
+#      names: ds
+#      ds:
+#        url: jdbc:mysql://localhost:3306/shardingsphere
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        username: root
+#        password: admin2018
+#    encrypt:
+#      encryptors:
+#        name_encryptor:
+#          type: AES
+#          props:
+#            aes.key.value: 123456abc
+#      tables:
+#        person:
+#          columns:
+#            username:
+#              plainColumn: username
+#              cipherColumn: username_cipher
+#              encryptor: name_encryptor
+#    props:
+#      sql:
+#        show: true
+#      query:
+#        with:
+#          cipher:
+#            column: true
+
+
+
