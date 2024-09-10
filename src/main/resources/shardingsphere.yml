@@ -1,57 +1,43 @@
-databaseName: ds
-
 mode:
   type: Standalone
   repository:
     type: JDBC
 
-#dataSources:
-#  ds:
+dataSources:
+  ds:
 #    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/shardingsphere
-#    username: root
-#    password: admin2018
-
-#encryptRule:
-#  encryptors:
-#    name_encryptor:
-#      type: AES
-#      props:
-#        aes-key-value: 123456abc
-#  tables:
-#    person:
-#      columns:
-#        username:
-#          plainColumn: username
-#          cipherColumn: username_cipher
-#          encryptor: name_encryptor
-#  props:
-#    query.with.cipher.column: true
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shardingsphere
+    username: root
+    password: 123456
 
 rules:
   - !MASK
     tables:
       person:
         columns:
-          id_card:
+          idCard:
             maskAlgorithm: md5_mask
-#          email:
-#            maskAlgorithm: mask_before_special_chars_mask
+          email:
+            maskAlgorithm: mask_before_special_chars_mask
           telephone:
             maskAlgorithm: keep_first_n_last_m_mask
 
     maskAlgorithms:
       md5_mask:
         type: MD5
-#      mask_before_special_chars_mask:
-#        type: MASK_BEFORE_SPECIAL_CHARS
-#        props:
-#          special-chars: '@'
-#          replace-char: '*'
+      mask_before_special_chars_mask:
+        type: MASK_BEFORE_SPECIAL_CHARS
+        props:
+          special-chars: '@'
+          replace-char: '*'
       keep_first_n_last_m_mask:
         type: KEEP_FIRST_N_LAST_M
         props:
           first-n: 3
           last-m: 4
           replace-char: '*'
+
+props:
+  sql-show: true
