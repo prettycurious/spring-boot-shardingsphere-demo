@@ -1,56 +1,43 @@
+server:
+  port: 8080
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      # 控制数据库生成 update：如果数据库中存在该表，则更新表结构，如果不存在，则创建表。
+      ddl-auto: update
+    # 控制是否打印运行时的SQL语句与参数信息
     show-sql: true
 #    open-in-view: true
   main:
     allow-bean-definition-overriding: true
-  datasource:
-    dynamic:
-      enabled: true #启用动态数据源，默认true
-      primary: master #设置默认的数据源或者数据源组,默认值即为master
-      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
-      grace-destroy: false #是否优雅关闭数据源，默认为false，设置为true时，关闭数据源时如果数据源中还存在活跃连接，至多等待10s后强制关闭
-      datasource:
-        master:
-          url: jdbc:mysql://localhost:3306/shardingsphere
-          type: com.alibaba.druid.pool.DruidDataSource
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          username: root
-          password: admin2018
-#        sharding:
-#          url: jdbc:shardingsphere:classpath:shardingsphere.yml
-#          driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-#  shardingsphere:
-#    datasource:
-#      names: ds
-#      ds:
-#        url: jdbc:mysql://localhost:3306/shardingsphere
-#        type: com.alibaba.druid.pool.DruidDataSource
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        username: root
-#        password: admin2018
-#    encrypt:
-#      encryptors:
-#        name_encryptor:
-#          type: AES
-#          props:
-#            aes.key.value: 123456abc
-#      tables:
-#        person:
-#          columns:
-#            username:
-#              plainColumn: username
-#              cipherColumn: username_cipher
-#              encryptor: name_encryptor
-#    props:
-#      sql:
-#        show: true
-#      query:
-#        with:
-#          cipher:
-#            column: true
-
-
-
+  shardingsphere:
+    datasource:
+      names: ds
+      ds:
+        url: jdbc:mysql://localhost:3306/shardingsphere
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+    encrypt:
+      encryptors:
+        id_card_encryptor:
+          type: AES
+          props:
+            aes.key.value: 123456abc
+      tables:
+        person:
+          columns:
+            id_card:
+#              plainColumn: id_card
+              cipherColumn: id_card_cipher
+              encryptor: id_card_encryptor
+    props:
+      sql:
+        #是否在日志中打印 SQL。打印 SQL 可以帮助开发者快速定位系统问题。日志内容包含：逻辑 SQL，真实 SQL 和 SQL 解析结果。
+        show: true
+        #是否使用密文列查询
+      query:
+        with:
+          cipher:
+            column: true

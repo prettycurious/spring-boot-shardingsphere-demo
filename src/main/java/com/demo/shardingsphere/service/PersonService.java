@@ -2,7 +2,6 @@ package com.demo.shardingsphere.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.shardingsphere.core.Person;
-import org.springframework.stereotype.Service;
 
 /**
  * Created with IntelliJ IDEA.

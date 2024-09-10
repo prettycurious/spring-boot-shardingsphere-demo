@@ -1,6 +1,5 @@
 package com.demo.shardingsphere.mapper;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.demo.shardingsphere.core.Person;
 import org.apache.ibatis.annotations.Mapper;
