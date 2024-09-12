@@ -1,35 +1,37 @@
+# 模式配置
 mode:
   type: Standalone
   repository:
     type: JDBC
-
+# 数据源配置
 dataSources:
-  ds:
-#    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
-    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shardingsphere
-    username: root
-    password: 123456
-
+  ds: # 数据源名称
+    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource # 数据源完整类名
+    driverClassName: com.mysql.cj.jdbc.Driver # 数据库驱动类名，以数据库连接池自身配置为准
+    url: jdbc:mysql://localhost:3306/shardingsphere # 数据库 URL 连接，以数据库连接池自身配置为准
+    username: root # 数据库用户名，以数据库连接池自身配置为准
+    password: 123456 # 数据库密码，以数据库连接池自身配置为准
+# 数据脱敏规则配置
 rules:
   - !MASK
     tables:
-      person:
+      person: # 脱敏表名称
         columns:
-          idCard:
+          name:
             maskAlgorithm: md5_mask
+          id_card: # 脱敏列名称
+            maskAlgorithm: keep_first_n_last_m_mask # 脱敏算法
           email:
             maskAlgorithm: mask_before_special_chars_mask
           telephone:
             maskAlgorithm: keep_first_n_last_m_mask
-
+    # 脱敏算法配置
     maskAlgorithms:
-      md5_mask:
-        type: MD5
+      md5_mask: # 脱敏算法名称
+        type: MD5 # 脱敏算法类型
       mask_before_special_chars_mask:
         type: MASK_BEFORE_SPECIAL_CHARS
-        props:
+        props: # 脱敏算法属性配置
           special-chars: '@'
           replace-char: '*'
       keep_first_n_last_m_mask:
@@ -38,6 +40,31 @@ rules:
           first-n: 3
           last-m: 4
           replace-char: '*'
+
+# 加密算法
+  - !ENCRYPT
+    tables:
+      person:
+        columns:
+          id_card:
+            cipher:
+              name: id_card
+              encryptorName: id_card_encryptor
+#            assistedQuery:
+#              name: assistedIdCard
+#              encryptorName: assisted_encryptor
+    encryptors:
+      # encryptorName 由用户指定，需要和加密规则中的 encryptorName 属性一致
+      id_card_encryptor:
+        # type 和 props，请参考加密内置算法：https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/builtin-algorithm/encrypt/
+        type: AES
+        props:
+          aes-key-value: 123456abc # AES 使用的 KEY
+          digest-algorithm-name: SHA-1 # AES KEY 的摘要算法
+#      assisted_encryptor:
+#        type: MD5
+#        props:
+#          salt: 123456
 
 props:
   sql-show: true

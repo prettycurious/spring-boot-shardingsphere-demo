@@ -32,6 +32,7 @@ public class PersonController {
         person.setIdCard("1234567890987");
         person.setTelephone("12345678987");
         person.setUsername("tianwenyuan");
+        person.setEmail("tianwenyuan@gmail.com");
         personService.save(person);
     }
 
