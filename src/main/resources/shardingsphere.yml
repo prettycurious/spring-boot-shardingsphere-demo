@@ -19,8 +19,8 @@ rules:
         columns:
           name:
             maskAlgorithm: md5_mask
-          id_card: # 脱敏列名称
-            maskAlgorithm: keep_first_n_last_m_mask # 脱敏算法
+#          id_card: # 脱敏列名称
+#            maskAlgorithm: keep_first_n_last_m_mask # 脱敏算法
           email:
             maskAlgorithm: mask_before_special_chars_mask
           telephone:
@@ -48,14 +48,14 @@ rules:
         columns:
           id_card:
             cipher:
-              name: id_card
-              encryptorName: id_card_encryptor
+              name: id_card_cipher
+              encryptorName: aes_encryptor
             assistedQuery:
-              name: assisted_id_card
+              name: assisted_query_id_card
               encryptorName: assisted_encryptor
     encryptors:
       # encryptorName 由用户指定，需要和加密规则中的 encryptorName 属性一致
-      id_card_encryptor:
+      aes_encryptor:
         # type 和 props，请参考加密内置算法：https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/builtin-algorithm/encrypt/
         type: AES
         props:
