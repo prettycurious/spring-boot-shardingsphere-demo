@@ -1,8 +1,8 @@
 # 模式配置
 mode:
   type: Standalone
-  repository:
-    type: JDBC
+#  repository:
+#    type: JDBC
 # 数据源配置
 dataSources:
   ds: # 数据源名称
@@ -50,9 +50,9 @@ rules:
             cipher:
               name: id_card
               encryptorName: id_card_encryptor
-#            assistedQuery:
-#              name: assistedIdCard
-#              encryptorName: assisted_encryptor
+            assistedQuery:
+              name: assisted_id_card
+              encryptorName: assisted_encryptor
     encryptors:
       # encryptorName 由用户指定，需要和加密规则中的 encryptorName 属性一致
       id_card_encryptor:
@@ -61,10 +61,10 @@ rules:
         props:
           aes-key-value: 123456abc # AES 使用的 KEY
           digest-algorithm-name: SHA-1 # AES KEY 的摘要算法
-#      assisted_encryptor:
-#        type: MD5
-#        props:
-#          salt: 123456
+      assisted_encryptor:
+        type: MD5
+        props:
+          salt: 123456
 
 props:
   sql-show: true

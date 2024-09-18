@@ -3,7 +3,6 @@ package com.demo.shardingsphere.controller;
 import com.demo.shardingsphere.core.Person;
 import com.demo.shardingsphere.mapper.PersonMapper;
 import com.demo.shardingsphere.service.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/rest/person")
 public class PersonController {
 
-    @Autowired
-    private PersonService personService;
+    private final PersonService personService;
 
-    @Autowired
-    private PersonMapper personMapper;;
+    private final PersonMapper personMapper;
+
+    public PersonController(PersonMapper personMapper, PersonService personService) {
+        this.personMapper = personMapper;
+        this.personService = personService;
+    }
 
     @PostMapping("/add")
     public void add() {
