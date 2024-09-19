@@ -27,6 +27,5 @@ public class Person {
     private String idCard;
     private String telephone;
     private String username;
-    private String usernameCipher;
     private String email;
 }

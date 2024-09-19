@@ -17,7 +17,7 @@
         <java.version>8</java.version>
         <mysql.version>9.0.0</mysql.version>
         <druid.version>1.2.23</druid.version>
-        <shardingsphere.version>5.5.0</shardingsphere.version>
+        <shardingsphere.version>5.3.2</shardingsphere.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,11 +41,11 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.2</version>
+            <version>1.33</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-jdbc</artifactId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
             <version>${shardingsphere.version}</version>
         </dependency>
         <dependency>
@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
+            <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
         <dependency>

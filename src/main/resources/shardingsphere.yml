@@ -19,8 +19,8 @@ rules:
         columns:
           name:
             maskAlgorithm: md5_mask
-#          id_card: # 脱敏列名称
-#            maskAlgorithm: keep_first_n_last_m_mask # 脱敏算法
+          id_card: # 脱敏列名称
+            maskAlgorithm: keep_first_n_last_m_mask # 脱敏算法
           email:
             maskAlgorithm: mask_before_special_chars_mask
           telephone:
@@ -29,17 +29,19 @@ rules:
     maskAlgorithms:
       md5_mask: # 脱敏算法名称
         type: MD5 # 脱敏算法类型
-      mask_before_special_chars_mask:
-        type: MASK_BEFORE_SPECIAL_CHARS
-        props: # 脱敏算法属性配置
-          special-chars: '@'
-          replace-char: '*'
-      keep_first_n_last_m_mask:
-        type: KEEP_FIRST_N_LAST_M
         props:
-          first-n: 3
-          last-m: 4
-          replace-char: '*'
+          salt: 123456 # 盐值
+      mask_before_special_chars_mask:
+        type: MASK_BEFORE_SPECIAL_CHARS # 特殊字符前遮盖脱敏算法
+        props: # 脱敏算法属性配置
+          special-chars: '@' # 特殊字符（首次出现）
+          replace-char: '*' #替换字符
+      keep_first_n_last_m_mask:
+        type: KEEP_FIRST_N_LAST_M # 保留前 N 后 M 脱敏算法
+        props:
+          first-n: 3 # 前 n 位
+          last-m: 4 # 后 n 位
+          replace-char: '*' # 替换字符
 
 # 加密算法
   - !ENCRYPT
@@ -47,12 +49,13 @@ rules:
       person:
         columns:
           id_card:
-            cipher:
-              name: id_card_cipher
-              encryptorName: aes_encryptor
-            assistedQuery:
-              name: assisted_query_id_card
-              encryptorName: assisted_encryptor
+            plainColumn: id_card
+            cipherColumn: id_card_cipher
+            encryptorName: aes_encryptor
+            assistedQueryColumn: assisted_query_id_card
+            assistedQueryEncryptorName: assisted_encryptor
+            likeQueryColumn: like_query_id_card
+            likeQueryEncryptorName: like_encryptor
     encryptors:
       # encryptorName 由用户指定，需要和加密规则中的 encryptorName 属性一致
       aes_encryptor:
@@ -60,11 +63,12 @@ rules:
         type: AES
         props:
           aes-key-value: 123456abc # AES 使用的 KEY
-          digest-algorithm-name: SHA-1 # AES KEY 的摘要算法
       assisted_encryptor:
         type: MD5
         props:
-          salt: 123456
+          salt: 123456 # 盐值
+      like_encryptor:
+        type: CHAR_DIGEST_LIKE # 单字符摘要模糊加密算法
 
 props:
   sql-show: true
